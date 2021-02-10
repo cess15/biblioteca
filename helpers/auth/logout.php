@@ -1,0 +1,12 @@
+<?php
+    session_start();
+    unset($_SESSION["id"]);
+    unset($_SESSION["nombre"]);
+    unset($_SESSION["apellido"]);
+    unset($_SESSION["cedula"]);
+    unset($_SESSION["genero"]);
+    unset($_SESSION["telefono"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["role_id"]);
+    header("Location:../../auth/login.php");
+?>
