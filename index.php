@@ -5,13 +5,13 @@
         <div class="container">
             <h1>
                 <span class="w3-jumbo w3-hide-small w3-hide-medium">
-                    Biblioteca Virtual Municipal
+                    Biblioteca El buen lector
                 </span>
             </h1>
         </div>
         <h1>
             <span class="w3-xxlarge w3-hide-large">
-                Biblioteca Virtual Municipal
+                Biblioteca El buen lector
             </span>
         </h1>
         <em>

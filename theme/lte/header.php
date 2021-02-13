@@ -7,7 +7,7 @@
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <!-- <form class="form-inline ml-3">
         <div class="input-group input-group-sm">
             <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
             <div class="input-group-append">
@@ -16,7 +16,7 @@
                 </button>
             </div>
         </div>
-    </form>
+    </form> -->
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -25,7 +25,7 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="fas fa-user-circle mr-2"></i>
                 <span class="float-right mb-1 text-light text-sm">
-                    <?php echo $_SESSION["nombre"] . ' ' . $_SESSION["apellido"]; ?>
+                    <?php echo $row["nombre"] . ' ' . $row["apellido"]; ?>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
