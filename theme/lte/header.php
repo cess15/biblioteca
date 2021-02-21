@@ -25,12 +25,12 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="fas fa-user-circle mr-2"></i>
                 <span class="float-right mb-1 text-light text-sm">
-                    <?php echo $row["nombre"] . ' ' . $row["apellido"]; ?>
+                    <?php echo $row["nombre_personal"] . ' ' . $row["apellido_personal"]; ?>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <div class="dropdown-divider"></div>
-                <a href="profile.php" class="dropdown-item">
+                <a href="../profile/" class="dropdown-item">
                     <i class="fa fa-user mr-2"></i> Perfil
                 </a>
                 <div class="dropdown-divider"></div>

@@ -8,10 +8,7 @@ if (count($_POST) > 0) {
     $row  = mysqli_fetch_array($result);
     if (is_array($row)) {
         if (password_verify($password, $row['password'])) {
-            if (password_needs_rehash($row['password'], PASSWORD_DEFAULT, [12])) {
-                $newPassword = mysqli_query($con, "update usuarios set password='{$password}' where nombre_usuario='{$_POST['username']}'");
-            }
-            $_SESSION["id"] = $row['id'];
+            $_SESSION["id"] = $row['id_usuario'];
             $_SESSION["role_id"] = $row['role_id'];
         } else {
             $_SESSION['error'] = 'No pudimos encontrar estas credenciales';
@@ -19,7 +16,7 @@ if (count($_POST) > 0) {
     }
 }
 if (isset($_SESSION["id"])) {
-    header("Location:../user/profile.php");
+    header("Location:../profile/");
 }
 ?>
 <?php require_once('../helpers/helpers.php') ?>

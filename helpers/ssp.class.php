@@ -251,6 +251,52 @@ class SSP {
 		);
 	}
 
+	static function join ( $request, $sql_details, $table, $join,$primaryKey, $columns,$default = false )
+	{
+		$bindings = array();
+		$db = self::sql_connect( $sql_details );
+
+		// Build the SQL query string from the request
+		$limit = self::limit( $request, $columns );
+		$order = self::order( $request, $columns );
+		$where = self::filter( $request, $columns, $bindings,$default );
+
+		// Main query to actually get the data
+		$data = self::sql_exec( $db, $bindings,
+			"SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", self::pluck($columns, 'db'))."`
+			 FROM `$table`
+			 $join
+			 $where
+			 $order
+			 $limit"
+		);
+
+		// Data set length after filtering
+		$resFilterLength = self::sql_exec( $db,
+			"SELECT FOUND_ROWS()"
+		);
+		$recordsFiltered = $resFilterLength[0][0];
+
+		// Total data set length
+		$resTotalLength = self::sql_exec( $db,
+			"SELECT COUNT(`{$primaryKey}`)
+			 FROM   `$table`".($default !== false ? ' WHERE '.$default : '')
+		);
+		$recordsTotal = $resTotalLength[0][0];
+
+
+		/*
+		 * Output
+		 */
+		return array(
+			"draw"            => intval( $request['draw'] ),
+			"recordsTotal"    => intval( $recordsTotal ),
+			"recordsFiltered" => intval( $recordsFiltered ),
+			"data"            => self::data_output( $columns, $data )
+		);
+	}
+
+
 
 	/**
 	 * Connect to the database

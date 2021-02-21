@@ -2,10 +2,17 @@
     <?php if ($_SESSION["role_id"] == 1) { ?>
         <?php
         require_once('../helpers/connect.php');
-        $user = mysqli_query($con, "select * from usuarios where id='{$_SESSION['id']}'");
+        $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
         $row  = mysqli_fetch_array($user);
-        $cantidadUsuarios = mysqli_query($con, "select count(*) from usuarios");
-        $number  = mysqli_fetch_array($cantidadUsuarios);
+        require_once('../helpers/categorias/cantCategorias.php');
+        require_once('../helpers/user/cantUsuarios.php');
+        require_once('../helpers/prestamos/cantPrestamos.php');
+        //Numeros de usuarios existentes
+        $number = getCantidadUsuarios($con);
+        //Numeros de categorias existentes
+        $numberCategoria = getCantidadCategorias($con);
+        //Numeros de prestamos existentes
+        $numberPrestamos = getCantidadPrestamos($con);
         mysqli_close($con);
         ?>
         <!-- Navbar -->
@@ -37,6 +44,11 @@
                                     </button>
                                 </div>
                             <?php } ?>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <a href="../user/" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"><span class="ml-2">Regresar</span></i></a>
+                                </div>
+                            </div>
                             <div class="card card-success">
                                 <div class="card-header">
                                     <h3 class="card-title">Nuevo Usuario</h3>
@@ -49,13 +61,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="nombre">Nombres</label>
-                                                    <input type="text" name="nombre" class="form-control" placeholder="Ingrese nombres">
+                                                    <input type="text" name="nombre" class="form-control" required placeholder="Ingrese nombres">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="apellido">Apellidos</label>
-                                                    <input type="text" name="apellido" class="form-control" placeholder="Ingrese apellidos">
+                                                    <input type="text" name="apellido" class="form-control" required placeholder="Ingrese apellidos">
                                                 </div>
                                             </div>
                                         </div>
@@ -63,13 +75,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="cedula">Cédula</label>
-                                                    <input type="text" name="cedula" class="form-control" placeholder="Ingrese número de cédula">
+                                                    <input type="text" name="cedula" class="form-control" required placeholder="Ingrese número de cédula">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="email">Correo electrónico</label>
-                                                    <input type="email" name="email" class="form-control" placeholder="Ingrese un correo electrónico">
+                                                    <input type="email" name="email" class="form-control" required placeholder="Ingrese un correo electrónico">
                                                 </div>
                                             </div>
                                         </div>
@@ -77,7 +89,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="telefono">Télefono</label>
-                                                    <input type="text" name="telefono" class="form-control" placeholder="Ingrese número de cédula">
+                                                    <input type="text" name="telefono" class="form-control" required placeholder="Ingrese télefono">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -90,6 +102,14 @@
                                                         <option value="Femenino">
                                                             Femenino</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">Nombre de usuario</label>
+                                                    <input type="text" name="username" class="form-control" required placeholder="Ingrese nombre de usuario">
                                                 </div>
                                             </div>
                                         </div>
@@ -116,5 +136,5 @@
 
         </html>
     <?php } else { ?>
-        <?php header('Location: ../user/profile.php'); ?>
+        <?php header('Location: ../profile/'); ?>
     <?php } ?>

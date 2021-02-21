@@ -2,10 +2,21 @@
     <?php if ($_SESSION['role_id'] == 1) {  ?>
         <?php
         require_once('../helpers/connect.php');
-        $user = mysqli_query($con, "select * from usuarios where id='{$_SESSION['id']}'");
+        //Obtener toda la información de un usuario autenticado
+        $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
         $row  = mysqli_fetch_array($user);
-        $cantidadUsuarios = mysqli_query($con, "select count(*) from usuarios");
-        $number  = mysqli_fetch_array($cantidadUsuarios);
+        require_once('../helpers/categorias/cantCategorias.php');
+        require_once('../helpers/user/cantUsuarios.php');
+        require_once('../helpers/prestamos/cantPrestamos.php');
+        require_once('../helpers/libros/cantLibros.php');
+        //Numero de libros existentes
+        $numberLibros = getCantidadLibros($con);
+        //Numeros de usuarios existentes
+        $number = getCantidadUsuarios($con);
+        //Numeros de categorias existentes
+        $numberCategoria = getCantidadCategorias($con);
+        //Numeros de prestamos existentes
+        $numberPrestamos = getCantidadPrestamos($con);
         mysqli_close($con);
         ?>
         <!-- Navbar -->
@@ -25,8 +36,8 @@
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                     <div class="row mb-5 mr-5 p-2">
-                        <div class="col-sm-2">
-                            <a href="./create.php"><button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i>Agregar Usuario</button></a>
+                        <div class="col-md-6">
+                            <a href="./create.php"><button type="button" class="btn btn-info float-left"><i class="fas fa-plus"></i>Agregar Usuario</button></a>
                         </div>
                     </div>
                     <table id="usuarios" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
@@ -38,6 +49,8 @@
                                 <th>Correo electrónico</th>
                                 <th>Teléfono</th>
                                 <th>Género</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                     </table>
@@ -50,8 +63,8 @@
         <?php require_once('../theme/lte/footer.php') ?>
         <?php require_once('../layouts/endapp.php'); ?>
         <script type=text/javascript>
-            $(function() {
-                var table = $("#usuarios").DataTable({
+            $(document).ready(function() {
+                $("#usuarios").DataTable({
                     proccessing: true,
                     serverSide: true,
                     pageLength: 5,
@@ -99,9 +112,30 @@
                         },
                         {
                             db: "genero"
-                        }
-
+                        },
+                        {
+                            db: "id_usuario",
+                            title: "Editar",
+                            render: function(data, type, row) {
+                                return `<a href="../user/edit.php?id=${data}" class="btn btn-warning ml-3"><i class="fa fa-user-edit"></i></a>`;
+                            },
+                        },
+                        {
+                            db: "id_usuario",
+                            title: "Eliminar",
+                            render: function(data, type, row) {
+                                return `<a href="../user/delete.php?id=${data}" 
+                                            onclick="event.preventDefault(); 
+                                                (confirm('¿ ESTAS SEGURO QUE DESEAS ELIMINAR ESTE USUARIO ?')) ? 
+                                                document.getElementById('delete-form-${data}').submit() : false;" 
+                                            class="btn btn-danger ml-3"><i class="fa fa-trash"></i>
+                                        </a>
+                                        <form id="delete-form-${data}" action="../helpers/user/delete.php?id=${data}" method="POST" style="display: none;"></form>`;
+                            },
+                        },
                     ],
+
+
                 })
             });
         </script>
@@ -109,5 +143,5 @@
 
         </html>
     <?php } else { ?>
-        <?php header('Location: ../user/profile.php'); ?>
+        <?php header('Location: ../profile/'); ?>
     <?php } ?>

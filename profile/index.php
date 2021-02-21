@@ -1,10 +1,21 @@
 <?php require_once('../layouts/app.php'); ?>
 <?php
 require_once('../helpers/connect.php');
-$user = mysqli_query($con, "select * from usuarios where id='{$_SESSION['id']}'");
+//Obtener toda la información de un usuario autenticado
+$user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
 $row  = mysqli_fetch_array($user);
-$cantidadUsuarios = mysqli_query($con, "select count(*) from usuarios");
-$number  = mysqli_fetch_array($cantidadUsuarios);
+require_once('../helpers/categorias/cantCategorias.php');
+require_once('../helpers/user/cantUsuarios.php');
+require_once('../helpers/prestamos/cantPrestamos.php');
+require_once('../helpers/libros/cantLibros.php');
+//Numero de libros existentes
+$numberLibros = getCantidadLibros($con);
+//Numeros de usuarios existentes
+$number = getCantidadUsuarios($con);
+//Numeros de categorias existentes
+$numberCategoria = getCantidadCategorias($con);
+//Numeros de prestamos existentes
+$numberPrestamos = getCantidadPrestamos($con);
 mysqli_close($con);
 ?>
 
@@ -25,11 +36,11 @@ mysqli_close($con);
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="../user/profile.php" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/user/profile.php' ? 'breadcrumb-item active' : 'breadcrumb-item' ?>">Mi
+                        <li class="breadcrumb-item"><a href="../profile/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/profile/' ? 'breadcrumb-item active' : 'breadcrumb-item' ?>">Mi
                                 perfil</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="../user/edit.php" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == '/biblioteca/user/edit.php' ? 'breadcrumb-item active' : 'breadcrumb-item' ?>">Actualizar
+                            <a href="../profile/edit.php" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == '/biblioteca/profile/edit.php' ? 'breadcrumb-item active' : 'breadcrumb-item' ?>">Actualizar
                                 Datos
                             </a>
                         </li>
@@ -51,17 +62,17 @@ mysqli_close($con);
                                         <div class="row">
                                             <div class="col-6">
                                                 <label for="nombres">Nombres</label>
-                                                <?php if (!$row["nombre"]) { ?>
+                                                <?php if (!$row["nombre_personal"]) { ?>
                                                     <p><span class='badge badge-danger'>Actualice este dato</span></p>
                                                 <?php } ?>
-                                                <p><?php echo $row["nombre"] ?></p>
+                                                <p><?php echo $row["nombre_personal"] ?></p>
                                             </div>
                                             <div class="col-6">
                                                 <label for="nombres">Apellidos</label>
-                                                <?php if (!$row["apellido"]) { ?>
+                                                <?php if (!$row["apellido_personal"]) { ?>
                                                     <p><span class='badge badge-danger'>Actualice este dato</span></p>
                                                 <?php } ?>
-                                                <p><?php echo $row["apellido"] ?></p>
+                                                <p><?php echo $row["apellido_personal"] ?></p>
                                             </div>
                                         </div>
                                         <div class="row">
