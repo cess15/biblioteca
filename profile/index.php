@@ -1,22 +1,49 @@
 <?php require_once('../layouts/app.php'); ?>
 <?php
 require_once('../helpers/connect.php');
+require_once('../helpers/helpers.php');
 //Obtener toda la información de un usuario autenticado
 $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
 $row  = mysqli_fetch_array($user);
-require_once('../helpers/categorias/cantCategorias.php');
-require_once('../helpers/user/cantUsuarios.php');
-require_once('../helpers/prestamos/cantPrestamos.php');
-require_once('../helpers/libros/cantLibros.php');
-//Numero de libros existentes
-$numberLibros = getCantidadLibros($con);
-//Numeros de usuarios existentes
-$number = getCantidadUsuarios($con);
-//Numeros de categorias existentes
-$numberCategoria = getCantidadCategorias($con);
-//Numeros de prestamos existentes
-$numberPrestamos = getCantidadPrestamos($con);
-mysqli_close($con);
+
+if($_SESSION['role_id']==2){
+    require_once('../helpers/categorias/cantCategorias.php');
+    require_once('../helpers/user/cantUsuarios.php');
+    require_once('../helpers/prestamos/cantPrestamos.php');
+    require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/clientes/cantClientes.php');
+    //Numero de clientes existentes
+    $numberClientes = getCantidadClientes($con);
+    //Numeros de categorias existentes
+    $numberCategoria = getCantidadCategorias($con);
+    //Numeros de prestamos realizados por usuario
+    $numberPrestamosById = getCantidadPrestamosById($con, $row['id_usuario']);
+    //Cantidad de libros disponibles para emprestar
+    $numberLibrosIsTrue = getCantidadLibrosIsTrue($con);
+    //Cantidad de libros disponibles para su devolucion
+    $numberLibrosIsFalse = getCantidadLibrosIsFalse($con);
+    //Cantidad de devoluciones
+    $numberDevolucionById=getCantidadDevolucionById($con, $row['id_usuario']);
+    
+    mysqli_close($con);
+}
+
+if($_SESSION['role_id']==1){
+    require_once('../helpers/prestamos/cantPrestamos.php');
+    require_once('../helpers/user/cantUsuarios.php');
+    require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/clientes/cantClientes.php');
+    //Numero de clientes existentes
+    $numberClientes = getCantidadClientes($con);
+    //Cantidad de usuarios con rol bibliotecario
+    $numberUser = getCantidadUsuarios($con);
+    $numberPrestamos = getCantidadPrestamos($con);
+    $numberDevolucion = getCantidadDevolucion($con);
+    //Numero de libros existentes
+    $numberLibros = getCantidadLibros($con);
+    mysqli_close($con);
+}
+
 ?>
 
 

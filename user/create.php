@@ -2,17 +2,21 @@
     <?php if ($_SESSION["role_id"] == 1) { ?>
         <?php
         require_once('../helpers/connect.php');
+        //Obtener toda la información de un usuario autenticado
         $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
         $row  = mysqli_fetch_array($user);
-        require_once('../helpers/categorias/cantCategorias.php');
-        require_once('../helpers/user/cantUsuarios.php');
         require_once('../helpers/prestamos/cantPrestamos.php');
-        //Numeros de usuarios existentes
-        $number = getCantidadUsuarios($con);
-        //Numeros de categorias existentes
-        $numberCategoria = getCantidadCategorias($con);
-        //Numeros de prestamos existentes
+        require_once('../helpers/user/cantUsuarios.php');
+        require_once('../helpers/libros/cantLibros.php');
+        require_once('../helpers/clientes/cantClientes.php');
+        //Cantidad de usuarios con rol bibliotecario
+        $numberUser = getCantidadUsuarios($con);
         $numberPrestamos = getCantidadPrestamos($con);
+        $numberDevolucion = getCantidadDevolucion($con);
+        //Numero de libros existentes
+        $numberLibros = getCantidadLibros($con);
+        //Numero de clientes existentes
+        $numberClientes = getCantidadClientes($con);
         mysqli_close($con);
         ?>
         <!-- Navbar -->
@@ -27,7 +31,7 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <section class="content">
-                        <div class="container-fluid">
+                        <div class="container">
                             <?php if (isset($_SESSION['success'])) { ?>
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     <strong>Exito!</strong> <?= $_SESSION['success'] ?>
@@ -60,14 +64,14 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="nombre">Nombres</label>
-                                                    <input type="text" name="nombre" class="form-control" required placeholder="Ingrese nombres">
+                                                    <label for="nombre_personal">Nombres</label>
+                                                    <input type="text" name="nombre_personal" class="form-control" required placeholder="Ingrese nombres">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="apellido">Apellidos</label>
-                                                    <input type="text" name="apellido" class="form-control" required placeholder="Ingrese apellidos">
+                                                    <label for="apellido_personal">Apellidos</label>
+                                                    <input type="text" name="apellido_personal" class="form-control" required placeholder="Ingrese apellidos">
                                                 </div>
                                             </div>
                                         </div>

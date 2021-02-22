@@ -22,6 +22,7 @@ $columns = array(
     array('db' => 'pais_publicacion', 'dt' => 6),
     array('db' => 'estado_libro', 'dt' => 7),
     array('db' => 'id_libro', 'dt' => 8),
+    array('db' => 'id_libro', 'dt' => 9),
 );
 
 // SQL server connection information
@@ -33,7 +34,6 @@ $sql_details = array(
 );
 
 require('../ssp.class.php');
-$where='estado_libro=false';
 echo json_encode(
-    SSP::join($_GET, $sql_details, $table, $join,$primaryKey, $columns,$where)
+    SSP::join($_GET, $sql_details, $table, $join,$primaryKey, $columns)
 );

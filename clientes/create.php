@@ -1,5 +1,5 @@
 <?php require_once('../layouts/app.php'); ?>
-<?php if ($_SESSION["role_id"] == 2) { ?>
+<?php if ($_SESSION['role_id'] == 2) {  ?>
     <?php
     require_once('../helpers/connect.php');
     require_once('../helpers/helpers.php');
@@ -23,10 +23,6 @@
     $numberLibrosIsTrue = getCantidadLibrosIsTrue($con);
     //Cantidad de libros disponibles para su devolucion
     $numberLibrosIsFalse = getCantidadLibrosIsFalse($con);
-    //Obtener clientes quienes no hayan realizado prestamos
-    $clientes = getClientesEstadoIsFalse($con);
-    //Obtener libros quienes no hayan realizado prestamos
-    $libros = getLibrosEstadoIsFalse($con);
     //Cantidad de devoluciones
     $numberDevolucionById=getCantidadDevolucionById($con, $row['id_usuario']);
     mysqli_close($con);
@@ -34,14 +30,13 @@
     <!-- Navbar -->
     <?php require_once('../theme/lte/header.php') ?>
     <!-- /.navbar -->
-
     <!-- Main Sidebar Container -->
     <?php require_once('../theme/lte/aside.php') ?>
     <!-- End Main Sidebar Container -->
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <div class="content-header">
-            <div class="container-fluid">
+            <div class="container">
                 <section class="content">
                     <div class="container">
                         <?php if (isset($_SESSION['success'])) { ?>
@@ -62,38 +57,56 @@
                         <?php } ?>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <a href="../libros/" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"><span class="ml-2">Regresar</span></i></a>
+                                <a href="../clientes/" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"><span class="ml-2">Regresar</span></i></a>
                             </div>
                         </div>
                         <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Nuevo Prestamo</h3>
+                                <h3 class="card-title">Nuevo Cliente</h3>
                             </div>
+                            <!-- /.card-header -->
                             <div class="card-body">
-                                <form action="../helpers/prestamos/create.php" method="POST">
+                                <form action="../helpers/clientes/create.php" method="POST">
                                     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-                                    <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id']; ?>">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="cliente_id">Clientes</label>
-                                                <select name="cliente_id" class="form-control">
-                                                    <option disabled>-- Seleccione --</option>
-                                                    <?php foreach ($clientes as $cliente) { ?>
-                                                        <option value="<?= $cliente['id_cliente'] ?>"><?php echo $cliente['nombre_cliente'] . ' ' . $cliente['apellido_cliente'] ?></option>
-                                                    <?php } ?>
-                                                </select>
+                                                <label for="cedula">Cédula</label>
+                                                <input type="text" name="cedula" class="form-control" required placeholder="Ingrese cedula">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="libro_id">Libros</label>
-                                                <select name="libro_id" class="form-control">
-                                                    <option disabled>-- Seleccione --</option>
-                                                    <?php foreach ($libros as $libro) { ?>
-                                                        <option value="<?= $libro['id_libro'] ?>"><?= $libro['nombre_libro'] ?></option>
-                                                    <?php } ?>
-                                                </select>
+                                                <label for="ciudad">Ciudad</label>
+                                                <input type="text" name="ciudad" class="form-control" required placeholder="Ingrese ciudad">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="nombre_cliente">Nombres</label>
+                                                <input type="text" name="nombre_cliente" class="form-control" required placeholder="Ingrese nombres">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="apellido_cliente">Apellidos</label>
+                                                <input type="text" name="apellido_cliente" class="form-control" required placeholder="Ingrese apellidos">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="celular">Télefono</label>
+                                                <input type="text" name="celular" class="form-control" required placeholder="Ingrese celular">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="correo_electronico">Correo electrónico</label>
+                                                <input type="email" name="correo_electronico" class="form-control" required placeholder="Ingrese un correo electrónico">
                                             </div>
                                         </div>
                                     </div>

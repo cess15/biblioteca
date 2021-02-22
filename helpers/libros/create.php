@@ -12,7 +12,7 @@ if (isset($_POST)) {
     $paisPublicacion = $_POST['pais_publicacion'];
     $estado = false;
 
-    $result = mysqli_query($con, "insert into libros (categoria_id,nombre_autor,codigo,nombre_libro,editorial,numero_paginas,anio_publicacion,pais_publicacion,estado) values ('{$categoria}','{$nombreAutor}','{$codigo}','{$nombre}','{$editorial}','{$numeroPaginas}','{$anioPublicacion}','{$paisPublicacion}','{$estado}');");
+    $result = mysqli_query($con, "insert into libros (categoria_id,nombre_autor,codigo,nombre_libro,editorial,numero_paginas,anio_publicacion,pais_publicacion,estado_libro) values ('{$categoria}','{$nombreAutor}','{$codigo}','{$nombre}','{$editorial}','{$numeroPaginas}','{$anioPublicacion}','{$paisPublicacion}','{$estado}');");
     if ($result) {
         $_SESSION['success'] = 'Libro registrado correctamente';
     } else {

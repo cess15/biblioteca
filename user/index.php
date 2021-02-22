@@ -5,18 +5,18 @@
         //Obtener toda la información de un usuario autenticado
         $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
         $row  = mysqli_fetch_array($user);
-        require_once('../helpers/categorias/cantCategorias.php');
-        require_once('../helpers/user/cantUsuarios.php');
         require_once('../helpers/prestamos/cantPrestamos.php');
+        require_once('../helpers/user/cantUsuarios.php');
         require_once('../helpers/libros/cantLibros.php');
+        require_once('../helpers/clientes/cantClientes.php');
+        //Cantidad de usuarios con rol bibliotecario
+        $numberUser = getCantidadUsuarios($con);
+        $numberPrestamos = getCantidadPrestamos($con);
+        $numberDevolucion = getCantidadDevolucion($con);
         //Numero de libros existentes
         $numberLibros = getCantidadLibros($con);
-        //Numeros de usuarios existentes
-        $number = getCantidadUsuarios($con);
-        //Numeros de categorias existentes
-        $numberCategoria = getCantidadCategorias($con);
-        //Numeros de prestamos existentes
-        $numberPrestamos = getCantidadPrestamos($con);
+        //Numero de clientes existentes
+        $numberClientes = getCantidadClientes($con);
         mysqli_close($con);
         ?>
         <!-- Navbar -->

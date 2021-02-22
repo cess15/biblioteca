@@ -10,11 +10,21 @@
     require_once('../helpers/user/cantUsuarios.php');
     require_once('../helpers/prestamos/cantPrestamos.php');
     require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/clientes/cantClientes.php');
+    //Numero de clientes existentes
+    $numberClientes = getCantidadClientes($con);
     //Numero de libros existentes
     $numberLibros = getCantidadLibros($con);
     //Numeros de categorias existentes
     $numberCategoria = getCantidadCategorias($con);
-    $numberPrestamosById = getCantidadPrestamosById($con,$row['id_usuario']);
+    //Numeros de prestamos realizados por usuario
+    $numberPrestamosById = getCantidadPrestamosById($con, $row['id_usuario']);
+    //Cantidad de libros disponibles para emprestar
+    $numberLibrosIsTrue = getCantidadLibrosIsTrue($con);
+    //Cantidad de libros disponibles para su devolucion
+    $numberLibrosIsFalse = getCantidadLibrosIsFalse($con);
+    //Cantidad de devoluciones
+    $numberDevolucionById=getCantidadDevolucionById($con, $row['id_usuario']);
     mysqli_close($con);
     ?>
     <!-- Navbar -->

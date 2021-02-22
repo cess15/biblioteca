@@ -5,15 +5,18 @@
     $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
     $row  = mysqli_fetch_array($user);
     require_once('../helpers/user/getUser.php');
-    require_once('../helpers/categorias/cantCategorias.php');
-    require_once('../helpers/user/cantUsuarios.php');
     require_once('../helpers/prestamos/cantPrestamos.php');
-    //Numeros de usuarios existentes
-    $number = getCantidadUsuarios($con);
-    //Numeros de categorias existentes
-    $numberCategoria = getCantidadCategorias($con);
-    //Numeros de prestamos existentes
+    require_once('../helpers/user/cantUsuarios.php');
+    require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/clientes/cantClientes.php');
+    //Cantidad de usuarios con rol bibliotecario
+    $numberUser = getCantidadUsuarios($con);
     $numberPrestamos = getCantidadPrestamos($con);
+    $numberDevolucion = getCantidadDevolucion($con);
+    //Numero de libros existentes
+    $numberLibros = getCantidadLibros($con);
+    //Numero de clientes existentes
+    $numberClientes = getCantidadClientes($con);
     ?>
     <!-- Navbar -->
 
@@ -50,14 +53,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="nombre">Nombres</label>
-                                            <input type="text" name="nombre" class="form-control" value="<?php echo $user['nombre_personal'] ?>" placeholder="<?php echo $user['nombre_personal'] != '' ? '' : 'Ingrese nombres' ?>">
+                                            <label for="nombre_personal">Nombres</label>
+                                            <input type="text" name="nombre_personal" class="form-control" value="<?php echo $user['nombre_personal'] ?>" placeholder="<?php echo $user['nombre_personal'] != '' ? '' : 'Ingrese nombres' ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="apellido">Apellidos</label>
-                                            <input type="text" name="apellido" class="form-control" value="<?php echo $user['apellido_personal'] ?>" placeholder="<?php echo $user['apellido_personal'] != '' ? '' : 'Ingrese apellidos' ?>">
+                                            <label for="apellido_personal">Apellidos</label>
+                                            <input type="text" name="apellido_personal" class="form-control" value="<?php echo $user['apellido_personal'] ?>" placeholder="<?php echo $user['apellido_personal'] != '' ? '' : 'Ingrese apellidos' ?>">
                                         </div>
                                     </div>
                                 </div>

@@ -3,8 +3,8 @@ if (isset($_POST)) {
     if (isset($_GET['id'])) {
         require_once('../connect.php');
         $id = $_GET['id'];
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
+        $nombre = $_POST['nombre_personal'];
+        $apellido = $_POST['apellido_personal'];
         $telefono = $_POST['telefono'];
         $genero = $_POST['genero'];
 

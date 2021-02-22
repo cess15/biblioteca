@@ -2,16 +2,32 @@
 <?php if ($_SESSION["role_id"] == 2) { ?>
     <?php
     require_once('../helpers/connect.php');
+    require_once('../helpers/helpers.php');
+    //Obtener toda la información de un usuario autenticado
     $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
     $row  = mysqli_fetch_array($user);
     require_once('../helpers/categorias/cantCategorias.php');
-    require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/user/cantUsuarios.php');
     require_once('../helpers/prestamos/cantPrestamos.php');
+    require_once('../helpers/libros/cantLibros.php');
+    require_once('../helpers/clientes/cantClientes.php');
+    //Numero de clientes existentes
+    $numberClientes = getCantidadClientes($con);
     //Numero de libros existentes
     $numberLibros = getCantidadLibros($con);
     //Numeros de categorias existentes
     $numberCategoria = getCantidadCategorias($con);
-    $numberPrestamosById = getCantidadPrestamosById($con,$row['id_usuario']);
+    //Numeros de prestamos realizados por usuario
+    $numberPrestamosById = getCantidadPrestamosById($con, $row['id_usuario']);
+    //Cantidad de libros disponibles para emprestar
+    $numberLibrosIsTrue = getCantidadLibrosIsTrue($con);
+    //Cantidad de libros disponibles para su devolucion
+    $numberLibrosIsFalse = getCantidadLibrosIsFalse($con);
+    //Obtener todas las categorias
+    $categorias = getCategorias($con);
+    //Cantidad de devoluciones
+    $numberDevolucionById=getCantidadDevolucionById($con, $row['id_usuario']);
+    mysqli_close($con);
     ?>
     <!-- Navbar -->
     <?php require_once('../theme/lte/header.php') ?>
@@ -25,7 +41,7 @@
         <div class="content-header">
             <div class="container-fluid">
                 <section class="content">
-                    <div class="container-fluid">
+                    <div class="container">
                         <?php if (isset($_SESSION['success'])) { ?>
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Exito!</strong> <?= $_SESSION['success'] ?>
@@ -72,7 +88,6 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <?php $categorias = getCategorias($con) ?>
                                                 <label for="categoria_id">Categoría</label>
                                                 <select name="categoria_id" class="form-control">
                                                     <option selected disabled>-- Seleccione --</option>
@@ -80,7 +95,6 @@
                                                         <option value="<?= $categoria['id_categoria'] ?>"><?= $categoria['nombre_categoria'] ?></option>
                                                     <?php } ?>
                                                 </select>
-                                                <?php mysqli_close($con) ?>
                                             </div>
                                         </div>
                                         <div class="col-md-6">

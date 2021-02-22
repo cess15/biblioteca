@@ -2,8 +2,8 @@
 if (isset($_POST)) {
     session_start();
     require_once('../connect.php');
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
+    $nombre = $_POST['nombre_personal'];
+    $apellido = $_POST['apellido_personal'];
     $cedula = $_POST['cedula'];
     $email = $_POST['email'];
     $telefono = $_POST['telefono'];

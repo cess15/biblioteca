@@ -20,7 +20,30 @@
                             <p>
                                 Usuarios
                                 <span class="badge badge-info right">
-                                    <?php echo $number[0] ?>
+                                    <?php echo $numberUser[0] ?>
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/clientes/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Clientes
+                                <span class="badge badge-info right">
+                                    <?php echo $numberClientes[0] ?>
+                                </span>
+                            </p>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="../libros/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/libros/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-book-reader"></i>
+                            <p>
+                                Libros
+                                <span class="badge badge-info right">
+                                    <?php echo $numberLibros[0] ?>
                                 </span>
                             </p>
                         </a>
@@ -32,6 +55,18 @@
                                 Prestamos
                                 <span class="badge badge-info right">
                                     <?php echo $numberPrestamos[0] ?>
+                                </span>
+                            </p>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="../devolucion/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/devolucion/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-clipboard-list"></i>
+                            <p>
+                                Devolucion
+                                <span class="badge badge-info right">
+                                    <?php echo $numberDevolucion[0] ?>
                                 </span>
                             </p>
                         </a>
@@ -52,28 +87,60 @@
 
                     </li>
                     <li class="nav-item">
-                        <a href="../libros/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/libros/' ? 'nav-link active' : 'nav-link' ?>">
-                            <i class="nav-icon fas fa-book-reader"></i>
+                        <a href="../clientes/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/clientes/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-user"></i>
                             <p>
-                                Libros
+                                Clientes
                                 <span class="badge badge-info right">
-                                    <?php echo $numberLibros[0] ?>
+                                    <?php echo $numberClientes[0] ?>
                                 </span>
                             </p>
                         </a>
 
                     </li>
                     <li class="nav-item">
-                        <a href="../prestamos/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/prestamos/' ? 'nav-link active' : 'nav-link' ?>">
+                        <a href="../libros/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/libros/' ? 'nav-link active' : 'nav-link' ?>">
                             <i class="nav-icon fas fa-book-reader"></i>
                             <p>
-                                Prestamos
+                                Libros disponibles
+                                <span class="badge badge-info right">
+                                    <?php echo $numberLibrosIsFalse[0] ?>
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../prestamos/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/prestamos/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-tasks"></i>
+                            <p>
+                                Libros Emprestados
+                                <span class="badge badge-info right">
+                                    <?php echo $numberLibrosIsTrue[0] ?>
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../historial/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/historial/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>
+                                Emprestamos
                                 <span class="badge badge-info right">
                                     <?php echo $numberPrestamosById[0] ?>
                                 </span>
                             </p>
                         </a>
-
+                    </li>
+                    <li class="nav-item">
+                        <a href="../devolucion/" class="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/biblioteca/devolucion/' ? 'nav-link active' : 'nav-link' ?>">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>
+                                Devoluciones
+                                <span class="badge badge-info right">
+                                    <?php echo $numberDevolucionById[0] ?>
+                                </span>
+                            </p>
+                        </a>
                     </li>
                 <?php } ?>
             </ul>

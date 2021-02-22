@@ -24,9 +24,9 @@
     //Cantidad de libros disponibles para su devolucion
     $numberLibrosIsFalse = getCantidadLibrosIsFalse($con);
     //Obtener clientes quienes no hayan realizado prestamos
-    $clientes = getClientesEstadoIsFalse($con);
+    $clientes = getClientesEstadoIsTrue($con);
     //Obtener libros quienes no hayan realizado prestamos
-    $libros = getLibrosEstadoIsFalse($con);
+    $libros = getLibrosEstadoIsTrue($con);
     //Cantidad de devoluciones
     $numberDevolucionById=getCantidadDevolucionById($con, $row['id_usuario']);
     mysqli_close($con);
@@ -62,7 +62,7 @@
                         <?php } ?>
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <a href="../libros/" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"><span class="ml-2">Regresar</span></i></a>
+                                <a href="../prestamos/" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"><span class="ml-2">Regresar</span></i></a>
                             </div>
                         </div>
                         <div class="card card-success">
@@ -70,7 +70,7 @@
                                 <h3 class="card-title">Nuevo Prestamo</h3>
                             </div>
                             <div class="card-body">
-                                <form action="../helpers/prestamos/create.php" method="POST">
+                                <form action="../helpers/prestamos/return.php" method="POST">
                                     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
                                     <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id']; ?>">
                                     <div class="row">

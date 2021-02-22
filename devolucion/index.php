@@ -1,13 +1,14 @@
 <?php require_once('../layouts/app.php'); ?>
-<?php if ($_SESSION["role_id"] == 1) { ?>
+<?php if ($_SESSION['role_id'] == 1) { ?>
     <?php
     require_once('../helpers/connect.php');
+    require_once('../helpers/helpers.php');
     //Obtener toda la información de un usuario autenticado
     $user = mysqli_query($con, "select * from usuarios where id_usuario='{$_SESSION['id']}'");
     $row  = mysqli_fetch_array($user);
     require_once('../helpers/prestamos/cantPrestamos.php');
-    require_once('../helpers/libros/cantLibros.php');
     require_once('../helpers/user/cantUsuarios.php');
+    require_once('../helpers/libros/cantLibros.php');
     require_once('../helpers/clientes/cantClientes.php');
     //Numero de clientes existentes
     $numberClientes = getCantidadClientes($con);
@@ -19,8 +20,6 @@
     $numberLibros = getCantidadLibros($con);
     mysqli_close($con);
     ?>
-
-
     <!-- Navbar -->
     <?php require_once('../theme/lte/header.php') ?>
     <!-- /.navbar -->
@@ -35,7 +34,7 @@
             <div class="container">
                 <div class="row p-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Listado de Prestamos</h1>
+                        <h1 class="m-0 text-dark">Listado de Devoluciones</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
                 <table id="prestamos" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
@@ -46,7 +45,7 @@
                             <th>Nombre responsable</th>
                             <th>Apellido responsable</th>
                             <th>Libro</th>
-                            <th>Fecha de prestamo</th>
+                            <th>Fecha de devolución</th>
                         </tr>
                     </thead>
                 </table>
@@ -63,7 +62,7 @@
                 serverSide: true,
                 pageLength: 5,
                 orderable: false,
-                ajax: "../helpers/prestamos/index.php",
+                ajax: "../helpers/devolucion/index.php",
                 type: "GET",
                 autoFill: true,
                 responsive: true,
@@ -105,7 +104,7 @@
                         db: "nombre_libro",
                     },
                     {
-                        db: "fecha_prestamo",
+                        db: "fecha_devolucion",
                         render: function(data, type, row) {
                             let date = new Date(data);
                             var options = { dateStyle: 'full', timeStyle: 'full' };
@@ -119,7 +118,7 @@
     </body>
 
     </html>
-<?php } else if ($_SESSION['role_id'] == 2) { ?>
+<?php } else if ($_SESSION["role_id"] == 2) { ?>
     <?php
     require_once('../helpers/connect.php');
     require_once('../helpers/helpers.php');
@@ -147,58 +146,47 @@
     $numberDevolucionById = getCantidadDevolucionById($con, $row['id_usuario']);
     mysqli_close($con);
     ?>
-
-
     <!-- Navbar -->
     <?php require_once('../theme/lte/header.php') ?>
     <!-- /.navbar -->
+
     <!-- Main Sidebar Container -->
     <?php require_once('../theme/lte/aside.php') ?>
     <!-- End Main Sidebar Container -->
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <section class="content">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
             <div class="container">
                 <div class="row p-2">
                     <div class="col-md-6">
-                        <h1 class="m-0 text-dark">Listado de libros emprestados</h1>
+                        <h1 class="m-0 text-dark">Mi historial de devoluciones</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
-                <div class="row mb-5 mr-5">
-                    <div class="col-md-4">
-                        <a href="./return.php"><button type="button" class="btn btn-info"><i class="fas fa-plus"></i>Agregar devolución</button></a>
-                    </div>
-                </div>
-                <table id="libros" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <table id="prestamos" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Autor</th>
-                            <th>Categoria</th>
-                            <th>Nombre</th>
-                            <th>Editorial</th>
-                            <th>Año</th>
-                            <th>País</th>
-                            <th>Estado</th>
+                            <th>Nombres del cliente</th>
+                            <th>Apellidos del cliente</th>
+                            <th>Libro</th>
+                            <th>Fecha de devolucion</th>
                         </tr>
                     </thead>
                 </table>
             </div>
-        </section>
+        </div>
     </div>
     </div>
-    <!-- /.wrapper -->
     <?php require_once('../theme/lte/footer.php') ?>
     <?php require_once('../layouts/endapp.php'); ?>
-    <script type="text/javascript">
+    <script type=text/javascript>
         $(document).ready(function() {
-            $("#libros").DataTable({
+            $("#prestamos").DataTable({
                 proccessing: true,
                 serverSide: true,
                 pageLength: 5,
                 orderable: false,
-                ajax: "../helpers/prestamos/libroPrestados.php",
-                type: "GET",
+                ajax: `../helpers/prestamos/devolucionBibliotecario.php?id=<?= $_SESSION['id'] ?>`,
                 autoFill: true,
                 responsive: true,
                 language: {
@@ -224,36 +212,18 @@
                     }
                 },
                 columns: [{
-                        db: "codigo"
+                        db: "nombre_cliente"
                     },
                     {
-                        db: "nombre_autor"
-                    },
-                    {
-                        db: "nombre_categoria"
+                        db: "apellido_cliente"
                     },
                     {
                         db: "nombre_libro"
                     },
                     {
-                        db: "editorial"
+                        db: "fecha_devolucion"
                     },
-                    {
-                        db: "anio_publicacion"
-                    },
-                    {
-                        db: "pais_publicacion"
-                    },
-                    {
-                        db: "estado",
-                        render: function(data, type, row, meta) {
-                            if (data == 0) {
-                                return `<span class="text text-success">Disponible</span>`
-                            } else {
-                                return `<span class="text text-danger">Prestado</span>`
-                            }
-                        }
-                    },
+
                 ]
             });
         });
