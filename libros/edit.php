@@ -1,5 +1,5 @@
 <?php require_once('../layouts/app.php'); ?>
-<?php if ($_SESSION['role_id'] == 1 || $_SESSION['role_id' == 2]) {  ?>
+<?php if ($_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2) {  ?>
     <?php
     require_once('../helpers/connect.php');
     require_once('../helpers/helpers.php');
